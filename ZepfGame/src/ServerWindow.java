@@ -40,7 +40,7 @@ public class ServerWindow {
 		panel[1].add(playerNum);
 		
 		panel[2].add(startButton);
-		panel[2].add(endButton);
+		//panel[2].add(endButton);
 		
 		frame.setVisible(true);
 	}

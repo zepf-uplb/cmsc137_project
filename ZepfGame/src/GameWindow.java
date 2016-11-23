@@ -117,7 +117,7 @@ public class GameWindow implements Constants, ActionListener {
 		//Render other players
 		GL11.glColor3f(1, 1, 0);
 		GL11.glBegin(GL11.GL_QUADS);
-		for(MPPlayer mpPlayer : ClientProgram.players.values()){
+		for(MPPlayer mpPlayer : GameClient.players.values()){
 			GL11.glVertex2f(mpPlayer.x, mpPlayer.y);
 			GL11.glVertex2f(mpPlayer.x+4, mpPlayer.y);
 			GL11.glVertex2f(mpPlayer.x+4, mpPlayer.y-4);

@@ -3,10 +3,10 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public class ClientProgram implements Constants, ActionListener {
+public class GameClient implements Constants, ActionListener {
 
 	static Player player;
-	static Network network;
+	static GameNetwork network;
 	static Map<Integer,MPPlayer> players = new HashMap<Integer,MPPlayer>(); 
 	
 	private JButton startButton;
@@ -15,10 +15,10 @@ public class ClientProgram implements Constants, ActionListener {
 	
 	public static void main(String[] args) throws Exception {
 		@SuppressWarnings("unused")
-		ClientProgram cw = new ClientProgram();
+		GameClient cw = new GameClient();
 	}
 	
-	public ClientProgram(){
+	public GameClient(){
 		ClientWindow cw = new ClientWindow();
 		startButton = cw.getStartButton();
 		nameText = cw.getNameText();
@@ -33,7 +33,7 @@ public class ClientProgram implements Constants, ActionListener {
 		
 		new ChatClient(gw, serverText.getText(), nameText.getText()).start();
 		
-		network.connect();				
+		network.startNetwork();				
 		gw.render(network.deathFlag, player);
 		
 		EventQueue.invokeLater(new Runnable()
@@ -44,11 +44,11 @@ public class ClientProgram implements Constants, ActionListener {
     				gw.render(network.deathFlag, player);	
     				
     				if(player.isAlive){
-    					System.out.println("Alive");
+    					//System.out.println("Alive");
         				update();				
         			}	
     				else{
-    					System.out.println("Dead");
+    					//System.out.println("Dead");
     				}
     			}    					
     			gw.foo();
@@ -59,13 +59,7 @@ public class ClientProgram implements Constants, ActionListener {
 	
 	public static void update(){
 		player.update();		
-
-		if(player.networkPosition.x != player.position.x || player.networkPosition.y != player.position.y){
-			PacketUpdateXY packet = new PacketUpdateXY();
-			packet.x = player.position.x;
-			packet.y = player.position.y;
-			network.client.sendUDP(packet);
-		}
+		network.sendCoordinate(player.position.x, player.position.y);
 	}	
 
 	@Override
@@ -81,7 +75,7 @@ public class ClientProgram implements Constants, ActionListener {
 			else{
 				serverText.setBackground(Color.WHITE);
 				player = new Player(nameText.getText());
-				network = new Network(serverText.getText());
+				network = new GameNetwork(serverText.getText(), nameText.getText());
 				startClient();
 			}
 		}			
