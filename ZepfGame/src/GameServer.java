@@ -103,7 +103,7 @@ public class GameServer implements Runnable, Constants, ActionListener{
      			if(currentPlayers == maxPlayers){
      				if(once){
      					for(int i = 0; i < currentPlayers; i++){
-     						broadcast("ADD,"+i);
+     						broadcast("ADD,"+i+","+players.get(i).name);
      					}
      					once = false;
      				}

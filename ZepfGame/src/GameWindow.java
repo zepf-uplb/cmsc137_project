@@ -11,18 +11,25 @@ import org.lwjgl.opengl.GL11;
 public class GameWindow implements Constants, ActionListener {	
 	
 	private Canvas c;
-	private JTextArea chatWindow = new JTextArea(15, 15);
+	private JFrame frame;
+	private JTextArea chatWindow = new JTextArea(10, 10);
 	private JTextField messageField = new JTextField(15);
+	private JTextArea playerWindow = new JTextArea(10, 10);
+	private LineColor[] colorList = LineColor.getListOfColors();
+	static int currentNumber = 3;
 	
 	public GameWindow(){
 
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		Container contentPane = frame.getContentPane();
 		JPanel panel = new JPanel();
+		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
 		
 		frame.setTitle("Zepf Game");
 		frame.setSize(DIM+180, DIM+29);
 		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new FrameWindowListener());
 		
 		/****/
@@ -32,6 +39,14 @@ public class GameWindow implements Constants, ActionListener {
 		panel.setLayout(new BorderLayout());
 		panel.add(new JScrollPane(chatWindow), BorderLayout.CENTER);
 		panel.add(messageField, BorderLayout.PAGE_END);
+		
+		playerWindow.setEditable(false);
+		panel3.setLayout(new BorderLayout());
+		panel3.add(new JScrollPane(playerWindow), BorderLayout.CENTER);
+		
+		panel2.setLayout(new GridLayout(2, 0));
+		panel2.add(panel3);
+		panel2.add(panel);
 		/****/
 		
 		c = new Canvas();
@@ -39,7 +54,7 @@ public class GameWindow implements Constants, ActionListener {
 	
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(c, BorderLayout.CENTER);
-		contentPane.add(panel, BorderLayout.WEST);
+		contentPane.add(panel2, BorderLayout.WEST);
 
 		frame.setVisible(true);
 
@@ -63,15 +78,6 @@ public class GameWindow implements Constants, ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
-	/*public void startGame(){
-		
-	}
-	
-	public Boolean isRunning(){
-		//return !Display.isCloseRequested();
-		return !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE);
-	}*/
 	
 	public void foo(){
 		GL11.glLoadIdentity();
@@ -105,19 +111,10 @@ public class GameWindow implements Constants, ActionListener {
 			}
 		}		
 		
-		//Render player		
-		GL11.glColor3f(1,1,1);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(player.position.x, player.position.y);
-		GL11.glVertex2f(player.position.x+4, player.position.y);
-		GL11.glVertex2f(player.position.x+4, player.position.y-4);
-		GL11.glVertex2f(player.position.x, player.position.y-4);
-		GL11.glEnd();
-		
-		//Render other players
-		GL11.glColor3f(1, 1, 0);
+		//Render all players
 		GL11.glBegin(GL11.GL_QUADS);
 		for(MPPlayer mpPlayer : GameClient.players.values()){
+			GL11.glColor3f(colorList[mpPlayer.id].r, colorList[mpPlayer.id].g, colorList[mpPlayer.id].b);
 			GL11.glVertex2f(mpPlayer.x, mpPlayer.y);
 			GL11.glVertex2f(mpPlayer.x+4, mpPlayer.y);
 			GL11.glVertex2f(mpPlayer.x+4, mpPlayer.y-4);
@@ -139,6 +136,39 @@ public class GameWindow implements Constants, ActionListener {
 	
 	public JTextArea getChatWindow(){
 		return this.chatWindow;
+	}
+	
+	public void updatePlayerWindow(){
+		String str = "Name\tScore\n";
+		for(MPPlayer mpPlayer : GameClient.players.values()){
+			str += mpPlayer.name+"\t"+mpPlayer.score+"\n";
+		}
+		playerWindow.setText(str);
+	}
+	
+	public void waitWindow(){
+		JDialog dialog = new JDialog(frame, "Starting in", true);
+		JLabel textLabel = new JLabel("                  3");
+		
+		Timer timer = new Timer(1000, new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(currentNumber > 0) {
+                    currentNumber--;
+                    textLabel.setText("                  "+String.valueOf(currentNumber));
+                } else {
+                    dialog.dispose();
+                    c.setFocusable(true);
+                    c.requestFocus();
+                }
+            }
+        });
+		dialog.setLayout(new BorderLayout());
+		dialog.add(textLabel, BorderLayout.CENTER);
+        dialog.setSize(100, 100);
+        dialog.setLocationRelativeTo(null);
+        timer.start();
+        dialog.setVisible(true);       
 	}
 	
 }

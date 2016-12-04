@@ -38,18 +38,20 @@ public class GameClient implements Constants, ActionListener {
 		
 		EventQueue.invokeLater(new Runnable()
         {
+			boolean once = true;
             public void run()
             {                
             	if(network.gameStart){	
     				gw.render(network.deathFlag, player);	
+    				if(once){
+    					gw.updatePlayerWindow();
+    					gw.waitWindow();
+    					once = false;
+    				}
     				
     				if(player.isAlive){
-    					//System.out.println("Alive");
         				update();				
         			}	
-    				else{
-    					//System.out.println("Dead");
-    				}
     			}    					
     			gw.foo();
                 EventQueue.invokeLater(this);

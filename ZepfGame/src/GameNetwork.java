@@ -52,18 +52,17 @@ public class GameNetwork implements Runnable, Constants {
      			} else if(playerData.startsWith("UPDATE")){
      				int id = Integer.parseInt(playerInfo[1].trim());
      				float x = Float.parseFloat(playerInfo[2].trim());
-					float y = Float.parseFloat(playerInfo[3].trim());
-     				if(id != myID){     					
-         				GameClient.players.get(id).x = x;
-         				GameClient.players.get(id).y = y;
-     				}     				
+					float y = Float.parseFloat(playerInfo[3].trim());				
+     				GameClient.players.get(id).x = x;
+     				GameClient.players.get(id).y = y;  				
      				
      			} else if(playerData.startsWith("ADD")){     		
      				int id = Integer.parseInt(playerInfo[1].trim());
-     				if(id != myID){
-     					MPPlayer newPlayer = new MPPlayer();     				
-         				GameClient.players.put(id, newPlayer);
-     				}     				
+     				String name = playerInfo[2].trim();
+ 					MPPlayer newPlayer = new MPPlayer();  
+ 					newPlayer.id = id;
+ 					newPlayer.name = name;
+     				GameClient.players.put(id, newPlayer);   				
      				
      			} else if(playerData.startsWith("ID")){
      				int id = Integer.parseInt(playerInfo[1].trim());
