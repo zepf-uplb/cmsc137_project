@@ -12,7 +12,7 @@ public class Player implements Constants{
 	Vector2f position = new Vector2f(xPos,yPos);
 	Vector2f networkPosition = new Vector2f(-1,-1);
 	
-	int head=0;
+	int head=rand.nextInt(4);;
 	boolean isAlive = true;
 	String name;
 	
