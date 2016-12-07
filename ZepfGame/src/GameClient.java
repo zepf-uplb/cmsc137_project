@@ -51,17 +51,29 @@ public class GameClient implements Constants, ActionListener {
     				if(once){    					
     					gw.waitWindow();
     					gw.updatePlayerWindow();
+    					gw.timer.stop();
     					once = false;
     				}
     				
     				if(network.roundFinished){
     					gw.updatePlayerWindow();
+    					gw.clearWindow();
+    					network.deathFlag = false;
+    					network.roundFinished = false;
+    					network.gameStart = false;
+    					once = true;
+    					player.initCoordinate();
     				}
     				
-    				if(player.isAlive){
+    				if(network.gameStart){
         				update();		
         			}	
-    			}    					
+    			}  
+            	
+            	else if(network.gameEnd){
+            		gw.showResults(GameClient.players.get(network.myID).score);
+            		network.gameEnd = false;
+            	}
     			gw.foo();
                 EventQueue.invokeLater(this);
             }
@@ -71,10 +83,6 @@ public class GameClient implements Constants, ActionListener {
 	public static void update(){
 		player.update();		
 		network.sendCoordinate(player.position.x, player.position.y);
-		/*if(GameServer.currentPlayers==1){
-			player.score++;
-			System.out.println(player.score);
-		}*/
 	}	
 
 	@Override
@@ -91,6 +99,7 @@ public class GameClient implements Constants, ActionListener {
 				serverText.setBackground(Color.WHITE);
 				player = new Player(nameText.getText());
 				network = new GameNetwork(serverText.getText(), nameText.getText());
+				startButton.setEnabled(false);
 				startClient();
 			}
 		

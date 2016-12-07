@@ -33,8 +33,16 @@ public class Player implements Constants{
 			}
 			else if(Keyboard.isKeyDown(Keyboard.KEY_D) && head!=2){
 				head=3;
-			}
-			
+			}			
 		}
+	}
+	
+	public void initCoordinate(){
+		xPos = rand.nextInt(DIM-1);
+		yPos = rand.nextInt(DIM-1);
+		head = rand.nextInt(4);
+		isAlive = true;
+		position = new Vector2f(xPos,yPos);
+		networkPosition = new Vector2f(-1,-1);
 	}
 }

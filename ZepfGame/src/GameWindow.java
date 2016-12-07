@@ -18,6 +18,8 @@ public class GameWindow implements Constants, ActionListener {
 	private LineColor[] colorList = LineColor.getListOfColors();
 	static int currentNumber = 3;
 	boolean once = true;
+	public Timer timer;
+	
 	public GameWindow(){
 
 		frame = new JFrame();
@@ -83,8 +85,13 @@ public class GameWindow implements Constants, ActionListener {
 		GL11.glLoadIdentity();
 		Display.update();
 		Display.sync(60);
-		//update window
+		
+	}
+	
+	public void clearWindow(){
 		//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+		//GL11.glFlush();
+		GL11.glClear(GL11.GL_CLEAR);
 	}
 	
 	public void exit(){
@@ -150,13 +157,15 @@ public class GameWindow implements Constants, ActionListener {
 		JDialog dialog = new JDialog(frame, "Starting in", true);
 		JLabel textLabel = new JLabel("                  3");
 		
-		Timer timer = new Timer(1000, new ActionListener() { 
+		timer = new Timer(1000, new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) {
+            	System.out.println(currentNumber);
                 if(currentNumber > 0) {
                     currentNumber--;
                     textLabel.setText("                  "+String.valueOf(currentNumber));
                 } else{
+                	currentNumber = 3;
                     dialog.dispose();
                     if(once){
                     	c.setFocusable(true);
@@ -173,6 +182,26 @@ public class GameWindow implements Constants, ActionListener {
         timer.start();
         dialog.setVisible(true);       
 	}
+	
+	public void showResults(int score){
+
+			JFrame frame = new JFrame();
+			Container contentPane = frame.getContentPane();
+			JTextArea manualText = new JTextArea(10, 10);
+			
+			frame.setTitle("Game Over");
+			frame.setSize(100, 100);
+			frame.setResizable(false);
+			frame.setLocationRelativeTo(null);
+			
+			manualText.setEditable(false);
+			if(score == 3) manualText.setText("\n    You Win!");
+			else manualText.setText("\n     You Lose!");
+			contentPane.add(manualText);
+			
+			frame.setVisible(true);
+		}
+	
 	
 }
 

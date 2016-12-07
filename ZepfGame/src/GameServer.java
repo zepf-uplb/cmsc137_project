@@ -94,6 +94,25 @@ public class GameServer implements Runnable, Constants, ActionListener{
      					i++;
      				}
      				broadcast("ROUND_WON"+","+idOfWinner);
+     				players.get(idOfWinner).score++;
+     				
+     				if(players.get(idOfWinner).score == 3){
+     					broadcast("GAME_END");
+     				}
+     				
+     				else{
+     					EventQueue.invokeLater(new Runnable()
+         		        {
+         		            public void run()
+         		            {                
+         		            	try{
+         		            		Thread.sleep(1200);
+         		            		state = new int[DIM][DIM];
+         		     				broadcast("GAME_START");
+         		            	}catch(Exception e){}
+         		            }
+         		        });
+     				}     				
      			}
      			
      			if(playerData.startsWith("CONNECT")){     				
@@ -125,9 +144,10 @@ public class GameServer implements Runnable, Constants, ActionListener{
      					for(int i = 0; i < currentPlayers; i++){
      						broadcast("ADD,"+i+","+players.get(i).name);
      					}
+     					broadcast("GAME_START");
      					once = false;
      				}
-     				broadcast("GAME_START");
+     				
      			}
 			}catch(Exception e){
 				//e.printStackTrace();

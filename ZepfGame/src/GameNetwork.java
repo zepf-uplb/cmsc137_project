@@ -8,8 +8,8 @@ public class GameNetwork implements Runnable, Constants {
 	private Thread t = new Thread(this);
 	private String playerData, name;
 	private InetAddress ipServer;
-	private int myID;
-	boolean gameStart = false, deathFlag = false, roundFinished = false;
+	int myID;
+	boolean gameStart = false, deathFlag = false, roundFinished = false, gameEnd = false;
 	
 	public GameNetwork(String ip, String name){
 		try{
@@ -75,6 +75,9 @@ public class GameNetwork implements Runnable, Constants {
      			
      			} else if(playerData.startsWith("GAME_START")){
      				gameStart = true;	
+     				
+     			} else if(playerData.startsWith("GAME_END")){
+     				gameEnd = true;	
      			}
      			
 			}catch(Exception e){

@@ -70,7 +70,7 @@ public class ClientWindow {
 		manualText.setEditable(false);
 		manualText.setText("Welcome to Zepf!\n\nYou control a line that indefinitely elongates\nuntil you bump on a line. The line can be\nyour line"
 				+ ", other's line or the border-line. You\ngain points if you are the last player\nremaining. The first player to reach 3 points"
-				+ "\nwould be considered the winner. There also\nexist random powerups in the field to be \ntaken at your own risk. Have fun!"
+				+ "\nwould be considered the winner. Paths \ntaken during the previous rounds remain\nas distractions. Have fun!"
 				+ "\n\nControls: W, A, S, D");
 		contentPane.add(manualText);
 		
