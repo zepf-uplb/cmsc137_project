@@ -5,7 +5,7 @@ public class NetPlayer {
 	int port;
 	String name;
 	float x, y;
-	
+	int score;
 	public NetPlayer(String name,InetAddress address, int port){
 		this.address = address;
 		this.port = port;

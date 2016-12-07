@@ -50,7 +50,7 @@ public class GameClient implements Constants, ActionListener {
     				}
     				
     				if(player.isAlive){
-        				update();				
+        				update();		
         			}	
     			}    					
     			gw.foo();
@@ -61,7 +61,11 @@ public class GameClient implements Constants, ActionListener {
 	
 	public static void update(){
 		player.update();		
-		network.sendCoordinate(player.position.x, player.position.y);
+		network.sendCoordinate(player.position.x, player.position.y, player.score);
+		if(GameServer.currentPlayers==1){
+			player.score++;
+			System.out.println(player.score);
+		}
 	}	
 
 	@Override

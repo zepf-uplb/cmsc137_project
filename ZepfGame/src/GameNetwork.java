@@ -52,9 +52,11 @@ public class GameNetwork implements Runnable, Constants {
      			} else if(playerData.startsWith("UPDATE")){
      				int id = Integer.parseInt(playerInfo[1].trim());
      				float x = Float.parseFloat(playerInfo[2].trim());
-					float y = Float.parseFloat(playerInfo[3].trim());				
+					float y = Float.parseFloat(playerInfo[3].trim());
+					int score = Integer.parseInt(playerInfo[4].trim());
      				GameClient.players.get(id).x = x;
-     				GameClient.players.get(id).y = y;  				
+     				GameClient.players.get(id).y = y;  		
+     				GameClient.players.get(id).score = score;  	
      				
      			} else if(playerData.startsWith("ADD")){     		
      				int id = Integer.parseInt(playerInfo[1].trim());
@@ -78,9 +80,9 @@ public class GameNetwork implements Runnable, Constants {
 		}			
 	}
 	
-	public void sendCoordinate(float x, float y){
+	public void sendCoordinate(float x, float y, int score){
 		try {	
-			String msg = "UPDATE," + myID + "," + x + "," + y;
+			String msg = "UPDATE," + myID + "," + x + "," + y + "," + score;
 			
     		byte[] buf = msg.getBytes();
 			DatagramPacket packet = new DatagramPacket(buf, buf.length, ipServer, UDP_PORT);

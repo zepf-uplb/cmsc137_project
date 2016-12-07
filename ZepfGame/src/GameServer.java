@@ -93,6 +93,8 @@ public class GameServer implements Runnable, Constants, ActionListener{
 					float y = Float.parseFloat(playerInfo[3].trim());
 					if(state[(int)x][(int)y] == 1){
 						send("DEATH_FLAG", players.get(id));
+						currentPlayers--;
+						System.out.println(currentPlayers);
 					}
 					
 					state[(int)x][(int)y] = 1;	

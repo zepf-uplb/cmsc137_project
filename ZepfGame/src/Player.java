@@ -12,10 +12,10 @@ public class Player implements Constants{
 	Vector2f position = new Vector2f(xPos,yPos);
 	Vector2f networkPosition = new Vector2f(-1,-1);
 	
-	int head=rand.nextInt(4);;
+	int head=rand.nextInt(4);
 	boolean isAlive = true;
 	String name;
-	
+	public int score=0;
 	public Player(String name){
 		this.name = name;
 	}
@@ -34,6 +34,7 @@ public class Player implements Constants{
 			else if(Keyboard.isKeyDown(Keyboard.KEY_D) && head!=2){
 				head=3;
 			}
+			
 		}
 	}
 }
