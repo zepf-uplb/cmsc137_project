@@ -17,7 +17,7 @@ public class GameWindow implements Constants, ActionListener {
 	private JTextArea playerWindow = new JTextArea(10, 10);
 	private LineColor[] colorList = LineColor.getListOfColors();
 	static int currentNumber = 3;
-	boolean once = true;
+	
 	public GameWindow(){
 
 		frame = new JFrame();
@@ -149,20 +149,17 @@ public class GameWindow implements Constants, ActionListener {
 	public void waitWindow(){
 		JDialog dialog = new JDialog(frame, "Starting in", true);
 		JLabel textLabel = new JLabel("                  3");
-		
+		boolean once = true;
 		Timer timer = new Timer(1000, new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(currentNumber > 0) {
                     currentNumber--;
                     textLabel.setText("                  "+String.valueOf(currentNumber));
-                } else{
+                } else {
                     dialog.dispose();
-                    if(once){
-                    	c.setFocusable(true);
-                    	c.requestFocus();
-                    	once = false;
-                    }                    
+                    c.setFocusable(true);
+                    c.requestFocus();
                 }
             }
         });

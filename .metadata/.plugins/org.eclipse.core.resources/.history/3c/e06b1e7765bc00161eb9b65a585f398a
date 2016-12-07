@@ -37,7 +37,6 @@ public class ClientWindow {
 		panel[1].add(serverText);
 		
 		panel[2].add(startButton);
-		panel[2].add(manualButton);
 		
 		frame.setVisible(true);
 	}
@@ -46,35 +45,12 @@ public class ClientWindow {
 		return this.startButton;
 	}
 	
-	public JButton getManualButton(){
-		return this.manualButton;
-	}
-	
 	public JTextField getNameText(){
 		return this.nameText;
 	}
 	
 	public JTextField getServerText(){
 		return this.serverText;
-	}
-	
-	public static void viewManual(){
-		JFrame frame = new JFrame();
-		Container contentPane = frame.getContentPane();
-		JTextArea manualText = new JTextArea(10, 10);
-		
-		frame.setTitle("Zepf Manual");
-		frame.setSize(250, 250);
-		frame.setResizable(false);
-		
-		manualText.setEditable(false);
-		manualText.setText("Welcome to Zepf!\n\nYou control a line that indefinitely elongates\nuntil you bump on a line. The line can be\nyour line"
-				+ ", other's line or the border-line. You\ngain points if you are the last player\nremaining. The first player to reach 3 points"
-				+ "\nwould be considered the winner. There also\nexist random powerups in the field to be \ntaken at your own risk. Have fun!"
-				+ "\n\nControls: W, A, S, D");
-		contentPane.add(manualText);
-		
-		frame.setVisible(true);
 	}
 	
 }

@@ -68,10 +68,9 @@ public class ClientWindow {
 		frame.setResizable(false);
 		
 		manualText.setEditable(false);
-		manualText.setText("Welcome to Zepf!\n\nYou control a line that indefinitely elongates\nuntil you bump on a line. The line can be\nyour line"
-				+ ", other's line or the border-line. You\ngain points if you are the last player\nremaining. The first player to reach 3 points"
-				+ "\nwould be considered the winner. There also\nexist random powerups in the field to be \ntaken at your own risk. Have fun!"
-				+ "\n\nControls: W, A, S, D");
+		manualText.setText("Welcome to Zepf!\nYou control a line that indefinitely elongates\n until you bump on a line. The line can be\n your line"
+				+ ", other's line or the border-line. You\n gain points if you are the last player\n remaining. The first player to reach 3 points"
+				+ "would be considered the winner. There also exists random powerups in the field to be taken at your own risk. Have fun!");
 		contentPane.add(manualText);
 		
 		frame.setVisible(true);

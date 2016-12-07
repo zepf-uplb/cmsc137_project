@@ -95,6 +95,7 @@ public class GameClient implements Constants, ActionListener {
 			}
 		
 		}else if("view_manual".equals(ae.getActionCommand())){
+			System.out.println("asdasdsad");
 			ClientWindow.viewManual();
 		}
 	}

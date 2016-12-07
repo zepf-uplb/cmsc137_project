@@ -18,6 +18,7 @@ public class GameWindow implements Constants, ActionListener {
 	private LineColor[] colorList = LineColor.getListOfColors();
 	static int currentNumber = 3;
 	boolean once = true;
+	
 	public GameWindow(){
 
 		frame = new JFrame();

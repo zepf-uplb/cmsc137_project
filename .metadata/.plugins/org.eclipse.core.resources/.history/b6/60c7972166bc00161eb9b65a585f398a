@@ -28,7 +28,7 @@ public class GameClient implements Constants, ActionListener {
 		startButton.setActionCommand("start_client");
 		startButton.addActionListener(this);
 		manualButton.setActionCommand("view_manual");
-		manualButton.addActionListener(this);
+		startButton.addActionListener(this);
 	}
 	
 	public void startClient(){
@@ -95,6 +95,7 @@ public class GameClient implements Constants, ActionListener {
 			}
 		
 		}else if("view_manual".equals(ae.getActionCommand())){
+			System.out.println("asdasdsad);
 			ClientWindow.viewManual();
 		}
 	}

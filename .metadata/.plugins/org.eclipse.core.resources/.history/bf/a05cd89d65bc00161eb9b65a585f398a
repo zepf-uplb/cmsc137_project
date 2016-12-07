@@ -10,7 +10,6 @@ public class GameClient implements Constants, ActionListener {
 	static Map<Integer,MPPlayer> players = new HashMap<Integer,MPPlayer>(); 
 	
 	private JButton startButton;
-	private JButton manualButton;
 	private JTextField nameText;
 	private JTextField serverText;
 	
@@ -22,13 +21,10 @@ public class GameClient implements Constants, ActionListener {
 	public GameClient(){
 		ClientWindow cw = new ClientWindow();
 		startButton = cw.getStartButton();
-		manualButton = cw.getManualButton();
 		nameText = cw.getNameText();
 		serverText = cw.getServerText();
 		startButton.setActionCommand("start_client");
 		startButton.addActionListener(this);
-		manualButton.setActionCommand("view_manual");
-		manualButton.addActionListener(this);
 	}
 	
 	public void startClient(){
@@ -93,9 +89,6 @@ public class GameClient implements Constants, ActionListener {
 				network = new GameNetwork(serverText.getText(), nameText.getText());
 				startClient();
 			}
-		
-		}else if("view_manual".equals(ae.getActionCommand())){
-			ClientWindow.viewManual();
-		}
+		}			
 	}
 }
