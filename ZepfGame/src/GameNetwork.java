@@ -9,7 +9,7 @@ public class GameNetwork implements Runnable, Constants {
 	private String playerData, name;
 	private InetAddress ipServer;
 	private int myID;
-	boolean gameStart = false, deathFlag = false;
+	boolean gameStart = false, deathFlag = false, roundFinished = false;
 	
 	public GameNetwork(String ip, String name){
 		try{
@@ -49,14 +49,17 @@ public class GameNetwork implements Runnable, Constants {
      			if(playerData.startsWith("DEATH_FLAG")){  
      				deathFlag = true;
      				
+     			} else if(playerData.startsWith("ROUND_WON")){
+     				int id = Integer.parseInt(playerInfo[1].trim());
+     				GameClient.players.get(id).score++;
+     				roundFinished = true;
+     				
      			} else if(playerData.startsWith("UPDATE")){
      				int id = Integer.parseInt(playerInfo[1].trim());
      				float x = Float.parseFloat(playerInfo[2].trim());
 					float y = Float.parseFloat(playerInfo[3].trim());
-					int score = Integer.parseInt(playerInfo[4].trim());
      				GameClient.players.get(id).x = x;
      				GameClient.players.get(id).y = y;  		
-     				GameClient.players.get(id).score = score;  	
      				
      			} else if(playerData.startsWith("ADD")){     		
      				int id = Integer.parseInt(playerInfo[1].trim());
@@ -80,9 +83,9 @@ public class GameNetwork implements Runnable, Constants {
 		}			
 	}
 	
-	public void sendCoordinate(float x, float y, int score){
+	public void sendCoordinate(float x, float y){
 		try {	
-			String msg = "UPDATE," + myID + "," + x + "," + y + "," + score;
+			String msg = "UPDATE," + myID + "," + x + "," + y;
 			
     		byte[] buf = msg.getBytes();
 			DatagramPacket packet = new DatagramPacket(buf, buf.length, ipServer, UDP_PORT);

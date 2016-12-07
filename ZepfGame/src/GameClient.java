@@ -43,10 +43,15 @@ public class GameClient implements Constants, ActionListener {
             {                
             	if(network.gameStart){	
     				gw.render(network.deathFlag, player);	
-    				if(once){
-    					gw.updatePlayerWindow();
+    				
+    				if(once){    					
     					gw.waitWindow();
+    					gw.updatePlayerWindow();
     					once = false;
+    				}
+    				
+    				if(network.roundFinished){
+    					gw.updatePlayerWindow();
     				}
     				
     				if(player.isAlive){
@@ -61,11 +66,11 @@ public class GameClient implements Constants, ActionListener {
 	
 	public static void update(){
 		player.update();		
-		network.sendCoordinate(player.position.x, player.position.y, player.score);
-		if(GameServer.currentPlayers==1){
+		network.sendCoordinate(player.position.x, player.position.y);
+		/*if(GameServer.currentPlayers==1){
 			player.score++;
 			System.out.println(player.score);
-		}
+		}*/
 	}	
 
 	@Override

@@ -17,6 +17,7 @@ public class GameServer implements Runnable, Constants, ActionListener{
 	private DatagramSocket server = null;
 	static Map<Integer, NetPlayer> players = new HashMap<Integer, NetPlayer>();
 	static int maxPlayers = 2, currentPlayers = 0;
+	int alivePlayers;
 	static boolean startGame = false, online = true;	
 	private int[][] state;
 	private Thread t = new Thread(this);	
@@ -79,6 +80,22 @@ public class GameServer implements Runnable, Constants, ActionListener{
      				state = new int[DIM][DIM];
      			}
      			
+     			if(alivePlayers == 1){
+     				int idOfWinner = 0;
+     				int i = 0;
+     				for(NetPlayer p : players.values()){
+     					if(p.alive){
+     						idOfWinner = i;
+     					}
+     					else{
+     						p.alive = true;
+     						alivePlayers++;
+     					}
+     					i++;
+     				}
+     				broadcast("ROUND_WON"+","+idOfWinner);
+     			}
+     			
      			if(playerData.startsWith("CONNECT")){     				
      				NetPlayer player = new NetPlayer(playerInfo[1].trim(), packet.getAddress(),packet.getPort());
      				player.x = 256;
@@ -93,8 +110,8 @@ public class GameServer implements Runnable, Constants, ActionListener{
 					float y = Float.parseFloat(playerInfo[3].trim());
 					if(state[(int)x][(int)y] == 1){
 						send("DEATH_FLAG", players.get(id));
-						currentPlayers--;
-						System.out.println(currentPlayers);
+						players.get(id).alive = false;
+						alivePlayers--;
 					}
 					
 					state[(int)x][(int)y] = 1;	
@@ -104,6 +121,7 @@ public class GameServer implements Runnable, Constants, ActionListener{
      			
      			if(currentPlayers == maxPlayers){
      				if(once){
+     					alivePlayers = currentPlayers;
      					for(int i = 0; i < currentPlayers; i++){
      						broadcast("ADD,"+i+","+players.get(i).name);
      					}
